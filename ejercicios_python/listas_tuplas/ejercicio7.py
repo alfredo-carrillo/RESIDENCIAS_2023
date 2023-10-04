@@ -12,4 +12,9 @@ fin = 122   # Último código ASCII imprimible
 for codigo in range(inicio, fin + 1):
     abecedario.append(chr(codigo))
 
+    resullt = codigo%3
+    #print(resullt)
+    if  resullt == 0:
+        abecedario.remove(chr(codigo))
+#
 print(abecedario)
