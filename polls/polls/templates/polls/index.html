@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+    {% if user.is_authenticated %}
+    <h3>  Hi {{ user.username }}  ! </h3>
+    
+    <p><a class="btn btn-danger btn-lg" href="{% url 'polls:log-out' %}" role="button">Log Out &raquo;</a></p>
+    {% else %}
+   {#No mostrará nada#}
+    {% endif %}
+
+    {% if object_list %}
+    <ul>
+    {% for question in object_list %}
+   
+    <div>
+    <div class = "list-group">
+    
+        <a href="{% url 'polls:detail' question.id %}" class="list-group-item list-group-item-action flex-column align-items-start active" style="margin-bottom: 10px; background-color:#6920D9; border-style: none;">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ question.question_text }}</h5>
+              <small>3 days ago</small>
+            </div>
+          </a>
+    </div>
+</div>
+    
+    {% endfor %}
+    </ul>
+
+    {% else %}
+    <p>No polls are available.</p>
+    {% endif %}
+
+{% endblock content %}
+
