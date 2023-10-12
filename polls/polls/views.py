@@ -1,19 +1,22 @@
-
 from django.shortcuts import render, get_object_or_404, redirect 
 
 from django.contrib.auth import authenticate, login, logout
-from django.urls import reverse, reverse_lazy
-
-from .models import Question, Choice
-from .forms import LoginForm, CreatePollsForm,  choiceFormset
-
 from django.contrib.auth import views as auth_views
 from django.contrib import messages
+from django.urls import reverse
+
 from django.views import generic
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView,CreateView, UpdateView
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 
+from .models import Question, Choice
+from .forms import LoginForm
+from django.forms.models import inlineformset_factory
+
+choiceFormset = inlineformset_factory(
+    Question, Choice, fields = ('choice_text', 'votes',)
+)
 
 
 class Home(TemplateView):
@@ -131,28 +134,18 @@ def logout_view(request):
 
 
 
-class CreatePoll(generic.CreateView):
-    model = Question
+class CreatePoll(CreateView):
+    model = Choice
     template_name = 'crud/create_poll.html'
-    form = CreatePollsForm()
+    fields = ['choice_text', 'votes']
 
-    def get(self, request):
-        #import pdb; pdb.set_trace()
-        if request.method == 'GET':
-            form = CreatePollsForm()
-            return render(request, self.template_name, {'form': form}) 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context["choice_formset"] = choiceFormset(self.request.POST)
         else:
-            messages.warning(request, 'no existe formilario') 
-
-        
-
-    def post(self, request):
-        form = CreatePollsForm()
-        #import pdb; pdb.set_trace()
-        question_text = request.POST['question_text']
-        pub_date = request.POST['pub_date']
-        choice_text = request.POST['choice_text']
-        votes = request.POST['votes']
+            context["choice_formset"] = choiceFormset()
+        return context
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -165,14 +158,28 @@ class CreatePoll(generic.CreateView):
         else:
             messages.error(self.request, 'Error en el formset')
             return self.render_to_response(context)
+        
+   
+class CreateUpdateView(UpdateView):
+    model =Choice 
+    fields = ['choice_text', 'votes']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['choice_formset'] = choiceFormset(self.request.POST, instance=self.object)
+            context["choice_formset"] = choiceFormset(self.request.POST)
         else:
-            context['choice_formset'] = choiceFormset(instance=self.object)
+            context["choice_formset"] = choiceFormset()
         return context
 
-    
-    
+    def form_valid(self, form):
+        context = self.get_context_data()
+        children = context["choice_formset"]
+        self.object = form.save()
+        if children.is_valid():
+            children.instance = self.object
+            children.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("polls:main")
