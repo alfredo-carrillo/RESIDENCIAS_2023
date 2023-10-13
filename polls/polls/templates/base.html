@@ -33,12 +33,18 @@
 <!-- Incluye jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- Incluye jQuery UI (asegúrate de incluir los archivos necesarios) -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <!-- Incluye jQuery UI -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+
+
     </head>
-<body>
+<body style = " background-color: green;">
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -76,9 +82,9 @@
         </form>
     </div>
 </nav>
-<main>
-  <div class = "jumbotron">
-    <div class = "container">
+<main  >
+  <div class = "jumbotron" style = "height:100%; width: 100%; justify-content: center;   align-items: center; ">
+    <div class = "container"   style = "background-color:#E1DFE3">
      {% block content %}
      {% endblock %}
     <div>

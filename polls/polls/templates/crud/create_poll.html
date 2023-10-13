@@ -1,49 +1,37 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
 <div class="container mt-4">
-    <form method="post" action="{% url 'polls:c-poll' %}">
- 
- 
-      
+    {% if 'OK' in request.GET %}
+	<p><b> Los datos han sido enviados correctamente. </b> </p>
+    {% endif %}
+    <form method="POST" action="{% url 'polls:c-poll' %}">
         {% csrf_token %}
-        <div class= "card">
-           <div class = "card-header">
-             <h3>Create new Poll</h3>
-           </div>
-                <div class="card-body">
-                    {{ form.non_form_errors }}
-                    {{ form.as_p }}
-          
-                    <h5 class="text-info">puedes agg mas opciones... </h5>
-                     {{ choice_meta.non_form_errors }}
-                     {{ choice_meta.management_form }}
-                        <div id="choice-formset">
-                            {% for form in choice_meta %}
-                                <div class="d-flex py-1 inline {{ choice_meta.prefix }}">
-
-                                    {{ choice_formset.as_p }}
-                         
-                                </div>
-                            {% endfor %}
-                        </div>     
-                        <button id="add-choice-button" class="btn btn-primary">Add Choice</button>
-                </div>
-                         
+        <div class="card">
+            <div class="card-header">
+                <h3>Create new Poll</h3>
+            </div>
+            <div class="card-body" style="display:inline-grid;
+            grid-template-columns: auto auto;
+            padding:30px;
+            ">
+                {{ form.non_form_errors }}
+                {{ form.as_p }}
+                
+            </div>
         </div>
-     <div class="mt-3 mb-5">
-         <button type="submit" class="px-5 btn btn-info">Submit</button>
-     </div>
-         
-        
+        <div class="mt-3 mb-5">
+            <button type="submit" class="px-5 btn btn-info">Submit</button>
+        </div>
     </form>
-    
-    
-
+    {{request.POST}}
+    <script>
+        $(document).ready(function() {
+            $('.datepicker').datepicker({
+                dateFormat: 'dd/mm/yy'
+            });
+        });
+    </script>
 
 </div>
 {% endblock %}
-
-

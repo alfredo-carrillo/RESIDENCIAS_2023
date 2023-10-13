@@ -11,12 +11,15 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect
 
 from .models import Question, Choice
-from .forms import LoginForm
+from .forms import LoginForm, ChoiceForm, QuestionForm, CreatePollform
+from django.forms import modelformset_factory
 from django.forms.models import inlineformset_factory
 
-choiceFormset = inlineformset_factory(
-    Question, Choice, fields = ('choice_text', 'votes',)
-)
+questionFormset = modelformset_factory(
+    Question, form = QuestionForm, extra = 1)
+
+
+ChoiceFormset = modelformset_factory(Choice, form=ChoiceForm, extra=1)
 
 
 class Home(TemplateView):
@@ -131,55 +134,53 @@ def logout_view(request):
 
 ##      CRUD VIEWS          #####
 
-
-
-
 class CreatePoll(CreateView):
-    model = Choice
+    form_class =    CreatePollform
     template_name = 'crud/create_poll.html'
-    fields = ['choice_text', 'votes']
+    #succes = 'polls-main'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context["choice_formset"] = choiceFormset(self.request.POST)
-        else:
-            context["choice_formset"] = choiceFormset()
-        return context
+    #def form_valid(self, form):
+    #    pregunta = form['question'].save()
+    #    opcion = form['choices'].save(commit=False) #se crea una instancia del objeto para que no se guarde de inmediato a la base de datos
+    #    opcion2 = form['choices2'].save(commit=False)#  y se deja en espera para si así se requiera se realicen validaciones con los datos 
+    #    opcion3 = form['choices3'].save(commit = False)#    antes de ser guardados a la base de datos
+    #    opcion.persona = pregunta#  se hace referencia que por cada objeto choices se está relacionando al de questions
+    #    opcion2.persona = pregunta## lo que quiere decir que cada opcion pertenece a la pregunta señalada
+    #    opcion3.persona = pregunta
+    #    opcion.save()       
+    #    opcion2.save()
+    #    opcion3.save()
+    #    return HttpResponseRedirect(reverse('polls:c-pol'))
 
-    def form_valid(self, form):
-        context = self.get_context_data()
-        choice_formset = context['choice_formset']
-        if choice_formset.is_valid():
-            self.object = form.save()
-            choice_formset.instance = self.object
-            choice_formset.save()
-            return redirect(reverse("polls:main"))
+    def post_new(self, request):
+
+        if request.method == "POST":
+            form = CreatePoll(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.question_text = request.POST['question_text']
+                post.pub_date = request.POST['pub_date']
+                post.choice_text = request.POST['choice_text']
+                post.votes = request.POST['votes']
+                post.save()
+                return redirect(reverse('polls:main'), pk= post.pk)
+                #return HttpResponseRedirect(reverse_lazy('success') )
         else:
-            messages.error(self.request, 'Error en el formset')
-            return self.render_to_response(context)
-        
+            form = CreatePoll()
+        return render(request, 'crud/create_poll.html', {'form': form})
+#
    
-class CreateUpdateView(UpdateView):
-    model =Choice 
-    fields = ['choice_text', 'votes']
+        
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context["choice_formset"] = choiceFormset(self.request.POST)
-        else:
-            context["choice_formset"] = choiceFormset()
-        return context
 
-    def form_valid(self, form):
-        context = self.get_context_data()
-        children = context["choice_formset"]
-        self.object = form.save()
-        if children.is_valid():
-            children.instance = self.object
-            children.save()
-        return super().form_valid(form)
+        
+        #if request.method == 'POST':
+        #    #Se procesa la informacion del formulario
+        #    form = form(data = request.POST)
+#
+        
+                   
 
-    def get_success_url(self):
-        return reverse("polls:main")
+            
+            
+
