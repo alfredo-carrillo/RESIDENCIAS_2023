@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect 
-
+from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import views as auth_views
 from django.contrib import messages
@@ -119,7 +119,7 @@ class LoginView(auth_views.LoginView):
 
         if user is not None:
             login(request, user)
-            return redirect('polls:main')  #  redirigir al usuario después de iniciar sesión.
+            return redirect('polls:main')  #  redirigir a l usuario después de iniciar sesión.
         else:
             # Handle authentication failure (e.g., show an error message)
             messages.error(request, 'La contraseña o el usuario son incorrectos, verifica los datos')
@@ -139,48 +139,33 @@ class CreatePoll(CreateView):
     template_name = 'crud/create_poll.html'
     #succes = 'polls-main'
 
-    #def form_valid(self, form):
-    #    pregunta = form['question'].save()
-    #    opcion = form['choices'].save(commit=False) #se crea una instancia del objeto para que no se guarde de inmediato a la base de datos
-    #    opcion2 = form['choices2'].save(commit=False)#  y se deja en espera para si así se requiera se realicen validaciones con los datos 
-    #    opcion3 = form['choices3'].save(commit = False)#    antes de ser guardados a la base de datos
-    #    opcion.persona = pregunta#  se hace referencia que por cada objeto choices se está relacionando al de questions
-    #    opcion2.persona = pregunta## lo que quiere decir que cada opcion pertenece a la pregunta señalada
-    #    opcion3.persona = pregunta
-    #    opcion.save()       
-    #    opcion2.save()
-    #    opcion3.save()
-    #    return HttpResponseRedirect(reverse('polls:c-pol'))
+    def form_valid(self, form):
+        pregunta = form['question'].save()
+       
 
-    def post_new(self, request):
+        opcion = form['choices'].save(commit=False) #se crea una instancia del objeto para que no se guarde de inmediato a la base de datos
+        opcion2 = form['choices2'].save(commit=False)#  y se deja en espera para si así se requiera se realicen validaciones con los datos 
+        opcion3 = form['choices3'].save(commit = False)#    antes de ser guardados a la base de datos
+        print(f"la pregunta es {pregunta} y el id es: [{pregunta.id}]")
+        #import pdb; pdb.set_trace()  
 
-        if request.method == "POST":
-            form = CreatePoll(request.POST)
-            if form.is_valid():
-                post = form.save(commit=False)
-                post.question_text = request.POST['question_text']
-                post.pub_date = request.POST['pub_date']
-                post.choice_text = request.POST['choice_text']
-                post.votes = request.POST['votes']
-                post.save()
-                return redirect(reverse('polls:main'), pk= post.pk)
-                #return HttpResponseRedirect(reverse_lazy('success') )
-        else:
-            form = CreatePoll()
-        return render(request, 'crud/create_poll.html', {'form': form})
-#
+        opcion.question = pregunta#  se hace referencia que por cada objeto choices se está relacionando al de questions
+        opcion2.question = pregunta## lo que quiere decir que cada opcion pertenece a la pregunta señalada
+        opcion3.question =  pregunta
+
+        opcion.save()       
+        opcion2.save()
+        opcion3.save()
+        return HttpResponseRedirect(reverse('polls:main'))
+
+class PollUpdateView(UpdateView):
+    
+    model = Question
+    form_class =    CreatePollform
    
-        
+    template_name = 'crud/update_view.html'
+    success_url = reverse_lazy('polls:main')
 
-
-        
-        #if request.method == 'POST':
-        #    #Se procesa la informacion del formulario
-        #    form = form(data = request.POST)
-#
-        
-                   
-
-            
-            
-
+    def form_valid(self, form):
+        messages.success(self.request, "The task was updated successfully.")
+        return super(PollUpdateView,self).form_valid(form)

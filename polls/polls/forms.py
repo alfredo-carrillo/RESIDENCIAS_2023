@@ -19,8 +19,9 @@ class QuestionForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             
-           'pub_date': forms.DateInput(attrs={'class': 'datepicker'}, format='%d/%m/%Y')
+           'pub_date': forms.DateTimeInput(attrs={'class': 'datepicker'}, format='%Y-%m-%d %H:%M')
         }
+       
 
 class ChoiceForm(forms.ModelForm):
     class Meta:
@@ -28,6 +29,9 @@ class ChoiceForm(forms.ModelForm):
         fields = ['choice_text', 'votes']
 
 class CreatePollform(MultiModelForm):
+    class Meta:
+        model = Question
+        
     choice2 = forms.CharField(label="choice", max_length=100)
     vote2 = forms.IntegerField(label="vote")
     

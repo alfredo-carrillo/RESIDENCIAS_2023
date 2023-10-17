@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-4" >
     {% if 'OK' in request.GET %}
 	<p><b> Los datos han sido enviados correctamente. </b> </p>
     {% endif %}
@@ -25,13 +25,30 @@
         </div>
     </form>
     {{request.POST}}
+
+  
+
     <script>
         $(document).ready(function() {
-            $('.datepicker').datepicker({
-                dateFormat: 'dd/mm/yy'
-            });
+          // Obtén la fecha y hora actual
+          var now = new Date();
+          
+          // Formatea la fecha en el formato que estás utilizando (día/mes/año)
+          var formattedDate =  now.getFullYear() +  '-' + (now.getMonth() + 1) + '-' +now.getDate();
+          
+          // Formatea la hora en el formato que estás utilizando (HH:mm)
+          var formattedTime = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
+
+          
+          // Combina la fecha y la hora en un solo valor
+          var initialDatetime = formattedDate + ' ' + formattedTime;
+          
+          // Asigna el valor inicial al campo de fecha y hora
+          $('.datepicker').val(initialDatetime);
         });
-    </script>
+      </script>
 
 </div>
 {% endblock %}
+
+

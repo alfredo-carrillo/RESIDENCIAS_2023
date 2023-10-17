@@ -41,6 +41,9 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script
+
 
 
     </head>
@@ -61,7 +64,7 @@
                 <a class="nav-link" href="{% url 'polls:c-poll' %}">Add Polls</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Edit Poll</a>
+              <a class="nav-link" href="#??" >Edit Poll</a>
           </li>
             <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Delete Polls</a>
@@ -83,8 +86,8 @@
     </div>
 </nav>
 <main  >
-  <div class = "jumbotron" style = "height:100%; width: 100%; justify-content: center;   align-items: center; ">
-    <div class = "container"   style = "background-color:#E1DFE3">
+  <div class = "jumbotron" style = "height:100%; width: 100%; overflow: scroll; justify-content: center;   align-items: center; ">
+    <div class = "container"   style = "background-color:#E1DFE3" >
      {% block content %}
      {% endblock %}
     <div>
