@@ -42,6 +42,7 @@ class CreatePollform(MultiModelForm):
         'choices2': ChoiceForm,
         'choices3': ChoiceForm,
     }
+
     
     
    

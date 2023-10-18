@@ -6,20 +6,12 @@ from django.contrib import messages
 from django.urls import reverse
 
 from django.views import generic
-from django.views.generic import TemplateView,CreateView, UpdateView
+from django.views.generic import TemplateView, CreateView, UpdateView,  DeleteView
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 
 from .models import Question, Choice
-from .forms import LoginForm, ChoiceForm, QuestionForm, CreatePollform
-from django.forms import modelformset_factory
-from django.forms.models import inlineformset_factory
-
-questionFormset = modelformset_factory(
-    Question, form = QuestionForm, extra = 1)
-
-
-ChoiceFormset = modelformset_factory(Choice, form=ChoiceForm, extra=1)
+from .forms import LoginForm, CreatePollform, QuestionForm, ChoiceForm
 
 
 class Home(TemplateView):
@@ -114,7 +106,7 @@ class LoginView(auth_views.LoginView):
         username = request.POST['username']
         password = request.POST['password']
 
-        #import pdb; pdb.set_trace()
+        
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
@@ -132,40 +124,45 @@ def logout_view(request):
     #redirigiendo al home
     return redirect(reverse('polls:home'))
 
-##      CRUD VIEWS          #####
+## ####     CRUD VIEWS          #####
 
 class CreatePoll(CreateView):
     form_class =    CreatePollform
     template_name = 'crud/create_poll.html'
-    #succes = 'polls-main'
+    success_url = reverse_lazy('polls:main')
 
     def form_valid(self, form):
         pregunta = form['question'].save()
        
 
-        opcion = form['choices'].save(commit=False) #se crea una instancia del objeto para que no se guarde de inmediato a la base de datos
-        opcion2 = form['choices2'].save(commit=False)#  y se deja en espera para si así se requiera se realicen validaciones con los datos 
-        opcion3 = form['choices3'].save(commit = False)#    antes de ser guardados a la base de datos
-        print(f"la pregunta es {pregunta} y el id es: [{pregunta.id}]")
-        #import pdb; pdb.set_trace()  
+        opcion = form['choices'].save(commit=False) 
+        opcion2 = form['choices2'].save(commit=False)
+        opcion3 = form['choices3'].save(commit = False)
+       
 
-        opcion.question = pregunta#  se hace referencia que por cada objeto choices se está relacionando al de questions
-        opcion2.question = pregunta## lo que quiere decir que cada opcion pertenece a la pregunta señalada
+        opcion.question = pregunta
+        opcion2.question = pregunta
         opcion3.question =  pregunta
 
         opcion.save()       
         opcion2.save()
         opcion3.save()
-        return HttpResponseRedirect(reverse('polls:main'))
+        #return HttpResponseRedirect(reverse('polls:main'))
 
-class PollUpdateView(UpdateView):
+class PollUpdateView(TemplateView):
     
     model = Question
-    form_class =    CreatePollform
-   
+    fields = '__all__'
     template_name = 'crud/update_view.html'
-    success_url = reverse_lazy('polls:main')
+    success_url = reverse_lazy('polls:main') 
 
-    def form_valid(self, form):
-        messages.success(self.request, "The task was updated successfully.")
-        return super(PollUpdateView,self).form_valid(form)
+    
+
+           
+class PollDeleteView(DeleteView):
+    model = Question
+    template_name = 'crud/delete_view.html'
+    success_url = reverse_lazy("polls:main")
+   
+
+  

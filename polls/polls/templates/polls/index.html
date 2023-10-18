@@ -28,7 +28,11 @@
              
               <a href="{% url 'polls:update' question.id %}">
                 <button type="button" class="btn btn-warning">Update</button>
-            </a> 
+              </a> 
+              <a href="{% url 'polls:d-poll' question.id %}">
+                <button type="button" class="btn btn-danger">Delete</button>
+              </a> 
+
             </div>
            
             
