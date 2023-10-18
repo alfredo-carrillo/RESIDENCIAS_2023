@@ -17,27 +17,31 @@
     <ul>
     {% for question in object_list %}
    
-<div >
-    <div class = "list-group">
+<div>
+    <div class = "list-group"><br>
     
         <a href="{% url 'polls:detail' question.id %}" class="list-group-item list-group-item-action flex-column align-items-start active" style="margin-bottom: 10px; background-color:#6920D9; border-style: none;">
             <div class="d-flex w-100 justify-content-between" >
               <h5 class="mb-1">{{ question.question_text }}</h5>
-              <small>3 days ago</small>
+              <small>Publicado el {{question.pub_date}} </p> </small> 
               
-             
-              <a href="{% url 'polls:update' question.id %}">
-                <button type="button" class="btn btn-warning">Update</button>
-              </a> 
-              <a href="{% url 'polls:d-poll' question.id %}">
-                <button type="button" class="btn btn-danger">Delete</button>
-              </a> 
-
+                
             </div>
-           
-            
+          
           </a>
     </div>
+    <a href="{% url 'polls:update' question.id %}">
+      <button type="button" class="btn btn-warning">Update</button>
+    </a> 
+    <a href="{% url 'polls:deletePoll' question.id %}">
+      <button type="button" class="btn btn-danger">Delete</button>
+    </a> 
+
+
+
+
+
+
 </div>
     
     {% endfor %}

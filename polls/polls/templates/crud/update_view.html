@@ -5,7 +5,7 @@
     {% if 'OK' in request.GET %}
 	<p><b> Los datos han sido enviados correctamente. </b> </p>
     {% endif %}
-    <form method="POST"  action="{% url 'polls:d-poll' question.id %}">
+    <form method="POST"  action="{% url 'polls:update' question.id %}">
         {% csrf_token %}
         <div class="card">
             <div class="card-header">
@@ -45,8 +45,8 @@
         </div>
     </form>
    
+
+   
 </div>
 
 {% endblock %}
-
-

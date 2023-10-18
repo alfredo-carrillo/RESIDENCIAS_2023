@@ -147,15 +147,30 @@ class CreatePoll(CreateView):
         opcion.save()       
         opcion2.save()
         opcion3.save()
-        #return HttpResponseRedirect(reverse('polls:main'))
+        return HttpResponseRedirect(reverse('polls:main'))
+        
 
-class PollUpdateView(TemplateView):
+class PollUpdateView(UpdateView):
     
     model = Question
     fields = '__all__'
     template_name = 'crud/update_view.html'
     success_url = reverse_lazy('polls:main') 
 
+    # def update(self, form):
+
+    #     pregunta = form['question'].save()
+       
+    #     opcion = form['choice.choice_text'].save(commit=False) 
+    #     votos = form['choice.votes'].save(commit=False) 
+
+    #     opcion.question = pregunta
+    #     votos.question = pregunta
+
+    #     opcion.save()       
+    #     votos.save()
+        
+        
     
 
            
