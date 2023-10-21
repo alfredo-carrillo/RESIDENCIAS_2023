@@ -20,7 +20,7 @@
 <div>
     <div class = "list-group"><br>
     
-        <a href="{% url 'polls:detail' question.id %}" class="list-group-item list-group-item-action flex-column align-items-start active" style="margin-bottom: 10px; background-color:#6920D9; border-style: none;">
+        <a href="{% url 'polls:detail' question.id  %}" class="list-group-item list-group-item-action flex-column align-items-start active" style="margin-bottom: 10px; background-color:#6920D9; border-style: none;">
             <div class="d-flex w-100 justify-content-between" >
               <h5 class="mb-1">{{ question.question_text }}</h5>
               <small>Publicado el {{question.pub_date}} </p> </small> 
@@ -30,9 +30,14 @@
           
           </a>
     </div>
+   
+
+    
     <a href="{% url 'polls:update' question.id %}">
-      <button type="button" class="btn btn-warning">Update</button>
-    </a> 
+        <button type="button" class="btn btn-warning">Update</button>
+    </a>
+   
+
     <a href="{% url 'polls:deletePoll' question.id %}">
       <button type="button" class="btn btn-danger">Delete</button>
     </a> 
@@ -40,7 +45,7 @@
 
 
 
-
+<script src="{% static 'script.js' %}"></script>
 
 </div>
     
@@ -53,3 +58,6 @@
 
 {% endblock content %}
 
+<!--{#<a href="{% url 'polls:update' question.id ch %}">
+    <button type="button" class="btn btn-warning">Update</button>
+  </a>#}-->

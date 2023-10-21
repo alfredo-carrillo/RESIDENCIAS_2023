@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.urls import reverse
 
 from django.views import generic
-from django.views.generic import TemplateView, CreateView, UpdateView,  DeleteView
+from django.views.generic import TemplateView, CreateView, UpdateView,  DeleteView, View
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 
@@ -150,28 +150,35 @@ class CreatePoll(CreateView):
         return HttpResponseRedirect(reverse('polls:main'))
         
 
-class PollUpdateView(UpdateView):
+class PollUpdateQuestionView(UpdateView):
     
     model = Question
     fields = '__all__'
-    template_name = 'crud/update_view.html'
-    success_url = reverse_lazy('polls:main') 
+    template_name_suffix = '_update_form' 
+ 
 
-    # def update(self, form):
+class PollsUpdate(TemplateView):
+ 
+    template_name = 'crud/update_view_update_form.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pregunta = get_object_or_404(Question,pk=self.kwargs['pk'])
+        context['question'] = pregunta
+        context['quiestion_form'] = QuestionForm(instance=pregunta)
 
-    #     pregunta = form['question'].save()
+        #print(pregunta)
+#
+        choices  = pregunta.choice_set.all()
+#
+            
+        
+        context['choices_form'] = ChoiceForm(instance=pregunta.choice_set.filter(question_id=pregunta))
+        #first_choice = pregunta.choice_set.first()
+
        
-    #     opcion = form['choice.choice_text'].save(commit=False) 
-    #     votos = form['choice.votes'].save(commit=False) 
 
-    #     opcion.question = pregunta
-    #     votos.question = pregunta
-
-    #     opcion.save()       
-    #     votos.save()
+        return context
         
-        
-    
 
            
 class PollDeleteView(DeleteView):
