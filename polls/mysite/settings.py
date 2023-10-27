@@ -30,7 +30,8 @@ MESSAGE_LEVEL = message_constants.DEBUG
 ALLOWED_HOSTS = ['*',
                  ]
 
-
+# possible options: 'sweetalert', 'sweetalert2' - default is 'sweetalert2'
+SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'bootstrap5',
     'betterforms',
+    'sweetify', 
     
 ]
 
