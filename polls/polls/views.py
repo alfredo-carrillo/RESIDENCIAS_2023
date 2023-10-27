@@ -5,7 +5,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib import messages
 from django.urls import reverse
 from django.forms import modelformset_factory
-
+from django.http import JsonResponse
 
 from django.views import generic
 from django.views.generic import TemplateView, CreateView, UpdateView,  DeleteView, View
@@ -155,12 +155,27 @@ class CreatePoll(CreateView):
 class PollUpdateQuestionView(UpdateView):
     
     model = Question
+
     fields = '__all__'
-    template_name_suffix = '_update_form' 
+    template_name_suffix = '_update_form'
+
+class CHOICE(View):
+    
+    Model =  Choice
+    
+    def post(self, request, pk=None):
+
+        input_file = self.request.POST.get("inputField") 
+        print(input_file)
+
+        return JsonResponse({"succes": True, "message":"Registro corretooo!"})
+    
+
+    
  
 
 class PollsUpdate(TemplateView):
- 
+   
     template_name = 'crud/update_view_update_form.html'
 
     def get_context_data(self, **kwargs):
@@ -174,20 +189,18 @@ class PollsUpdate(TemplateView):
         # Crear un modelformset para Choice
         ChoiceFormSet = modelformset_factory(Choice, form=ChoiceForm, extra=0)
 
-        # Obtener las opciones asociadas a la pregunta
         choices = pregunta.choice_set.all()
 
         if self.request.method == 'POST':
-            # Si es una solicitud POST, procesa los formularios
             question_form = QuestionForm(self.request.POST, instance=pregunta)
             choice_formset = ChoiceFormSet(self.request.POST, queryset=choices)
 
             if question_form.is_valid() and choice_formset.is_valid():
                 question_form.save()
                 choice_formset.save()
-                # Realizar las acciones necesarias después de guardar
+                
         else:
-            # Si es una solicitud GET, simplemente muestra los formularios
+            
             question_form = QuestionForm(instance=pregunta)
             choice_formset = ChoiceFormSet(queryset=choices)
 
