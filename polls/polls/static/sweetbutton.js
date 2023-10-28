@@ -39,38 +39,30 @@ document.addEventListener("DOMContentLoaded", function() {
         `;
     
         Swal.fire({
-            title: 'Formulario en SweetAlert',
+            title: 'Agrega nuevas Opciones',
             html: formHTML,
             showCancelButton: true,
             confirmButtonText: 'Enviar',
             showLoaderOnConfirm: true,
-            preConfirm: () => {
+                search__process : async (data_object) => {
                 // Obtener los valores del formulario
                 let inputFieldValue = document.getElementById('inputField').value;
                 let data = new FormData()
-                data.append("csrfmiddlewaretoken", token);
+                data.append("csrfmiddlewaretoken", getCookie("csrftoken"));
                 data.append("inputField", inputFieldValue)
     
                 // Realizar la solicitud Fetch con los datos del formulario
-                return fetch(`/${pk}/choice/add/`, {
+                let reques = await fetch(`/${pk}/choice/add/`, {
                     method: 'POST',
                     body: data,
-                   
-                })
-                .then(response => {
-                    if (!response.succes) {
-                        throw new Error('La solicitud no se pudo completar');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    return data;
-                })
-                .catch(error => {
-                    Swal.showValidationMessage(`Error: ${error}`);
+                    
                 });
+
+                let response = await request.json(){
+                    if (response.succes){}
+                }
+                
             },
-            allowOutsideClick: () => !Swal.isLoading()
         })
         .then(result => {
             if (result.isConfirmed) {
