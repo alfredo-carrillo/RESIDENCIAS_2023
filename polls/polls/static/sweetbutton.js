@@ -35,8 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <form id="custom-form">
                 <label for="inputField">Campo de entrada:</label>
                 <input type="text" id="inputField" name="inputField">
-            </form>
-        `;
+            </form>`;
     
         Swal.fire({
             title: 'Agrega nuevas Opciones',
@@ -44,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
             showCancelButton: true,
             confirmButtonText: 'Enviar',
             showLoaderOnConfirm: true,
-                search__process : async (data_object) => {
+            preConfirm : async (data_object) => {
                 // Obtener los valores del formulario
                 let inputFieldValue = document.getElementById('inputField').value;
                 let data = new FormData()
@@ -56,44 +55,27 @@ document.addEventListener("DOMContentLoaded", function() {
                     method: 'POST',
                     body: data,
                     
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('La solicitud no se pudo completar');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    return data;
+                })
+                .catch(error => {
+                    Swal.showValidationMessage(`Error: ${error}`);
                 });
-
-                let response = await request.json(){
-                    if (response.succes){}
-                }
-                
             },
+            allowOutsideClick: () => !Swal.isLoading()
         })
         .then(result => {
             if (result.isConfirmed) {
-                Swal.fire('Respuesta del servidor', result.message, 'success');
+                Swal.fire('Respuesta del servidor', result.value.message, 'success');
             }
         });
     }
-    
+
 });
-
-
-
-// function create_post() {
-//     console.log("create post is working!") // sanity check
-//     $.ajax({
-//         url : "create_post/", // the endpoint
-//         type : "POST", // http method
-//         data : { the_post : $('#post-text').val() }, // data sent with the post request
-
-//         // handle a successful response
-//         success : function(json) {
-//             $('#post-text').val(''); // remove the value from the input
-//             console.log(json); // log the returned json to the console
-//             console.log("success"); // another sanity check
-//         },
-
-//         // handle a non-successful response
-//         error : function(xhr,errmsg,err) {
-//             $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-//                 " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-//             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-//         }
-//     });
-// };

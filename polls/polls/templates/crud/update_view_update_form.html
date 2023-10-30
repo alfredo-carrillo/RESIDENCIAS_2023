@@ -22,7 +22,7 @@
                 {{ question_form }}
                
                
-                 <div class="mt-3 mb-5">
+                 <div  class="mt-3 mb-5">
 
                     {% for choice_form in choice_formset %}
                     <div class="choice-form">
@@ -42,7 +42,20 @@
         </div>
     </form>
 
-    
+
+<script>
+        $(document).ready(function() {
+  
+
+fetch("/contents.json")
+  .then(response => response.text())
+  .then(data => {
+    const json = JSON.parse(data);
+    $('.choice_form.votes')
+    console.log(json);
+  });
+}
+</script>
 
     
 </div>

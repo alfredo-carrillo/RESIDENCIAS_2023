@@ -208,7 +208,7 @@ class PollsUpdate(TemplateView):
         context['choice_formset'] = choice_formset
 
         return context
-        
+   
 
            
 class PollDeleteView(DeleteView):
