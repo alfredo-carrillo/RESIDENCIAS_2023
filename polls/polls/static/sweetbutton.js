@@ -21,53 +21,55 @@ let token = getCookie("csrftoken");
 console.log(token);
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Obtener el botón por su ID
     let choiceFormButton = document.getElementById("add_fields");
+    let existingForm = document.getElementById("form-getChoice"); // Reemplaza con el ID de tu formulario existente
 
-    // Agregar un evento de clic al botón
     choiceFormButton.addEventListener("click", function() {
         showSweetAlert();
     });
 
     function showSweetAlert() {
-        // Crear un formulario personalizado en HTML
         let formHTML = `
             <form id="custom-form">
                 <label for="inputField">Campo de entrada:</label>
                 <input type="text" id="inputField" name="inputField">
             </form>`;
-    
+
         Swal.fire({
             title: 'Agrega nuevas Opciones',
             html: formHTML,
             showCancelButton: true,
             confirmButtonText: 'Enviar',
             showLoaderOnConfirm: true,
-            preConfirm : async (data_object) => {
-                // Obtener los valores del formulario
+            preConfirm: async (data_object) => {
                 let inputFieldValue = document.getElementById('inputField').value;
-                let data = new FormData()
+                let data = new FormData();
                 data.append("csrfmiddlewaretoken", getCookie("csrftoken"));
-                data.append("inputField", inputFieldValue)
-    
-                // Realizar la solicitud Fetch con los datos del formulario
-                let reques = await fetch(`/${pk}/choice/add/`, {
-                    method: 'POST',
-                    body: data,
-                    
-                })
-                .then(response => {
+                data.append("inputField", inputFieldValue);
+
+                try {
+                    let response = await fetch(`/${pk}/choice/add/`, {
+                        method: 'POST',
+                        body: data,
+                    });
+
                     if (!response.ok) {
                         throw new Error('La solicitud no se pudo completar');
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    return data;
-                })
-                .catch(error => {
+
+                    
+
+                    // Agrega los nuevos campos al formulario existente
+                    const nuevoCampo = document.createElement('input');
+                    nuevoCampo.type = 'text';
+                    nuevoCampo.value = inputFieldValue;
+                    
+                    existingForm.appendChild(nuevoCampo);
+
+                    return inputFieldValue;
+                } catch (error) {
                     Swal.showValidationMessage(`Error: ${error}`);
-                });
+                }
             },
             allowOutsideClick: () => !Swal.isLoading()
         })
@@ -77,5 +79,4 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-
 });

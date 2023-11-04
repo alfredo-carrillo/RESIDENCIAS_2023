@@ -166,7 +166,7 @@ class CHOICE(View):
     def post(self, request, pk=None):
 
         input_file = self.request.POST.get("inputField") 
-        print(input_file)
+        #print(f"este es desde las vistas: {input_file}")
 
         return JsonResponse({"succes": True, "message":"Registro corretooo!"})
     
@@ -191,23 +191,37 @@ class PollsUpdate(TemplateView):
 
         choices = pregunta.choice_set.all()
 
-        if self.request.method == 'POST':
-            question_form = QuestionForm(self.request.POST, instance=pregunta)
-            choice_formset = ChoiceFormSet(self.request.POST, queryset=choices)
-
-            if question_form.is_valid() and choice_formset.is_valid():
-                question_form.save()
-                choice_formset.save()
-                
-        else:
-            
-            question_form = QuestionForm(instance=pregunta)
-            choice_formset = ChoiceFormSet(queryset=choices)
+             
+        question_form = QuestionForm(instance=pregunta)
+        choice_formset = ChoiceFormSet(queryset=choices)
 
         context['question_form'] = question_form
         context['choice_formset'] = choice_formset
 
         return context
+    
+    def post(self, request, *args, **kwargs):
+        # retrieve the primary key from url
+         pk = self.kwargs['pk']
+  
+        # retrieve the Person model instance based on pk
+         pregunta = get_object_or_404(Question, pk=pk)
+         question_form = QuestionForm(instance=pregunta, data=request.POST)
+
+         choice = get_object_or_404(Choice, pk=pk)
+         choice_formset = ChoiceForm(instance=choice, data=request.POST)
+
+  
+         if 'save_forms' in request.POST:
+            if question_form.is_bound and question_form.is_valid() and choice_formset.is_bound and choice_formset.is_valid():
+                question_form.save()
+                choice_formset.save()
+            else:
+               messages.error(request, question_form.errors, choice_formset.errors)
+  
+     
+
+            return HttpResponseRedirect(reverse('polls:main'))
    
 
            
