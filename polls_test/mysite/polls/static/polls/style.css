@@ -1,0 +1,28 @@
+li a {
+    color: rgb(225, 225, 225);
+}
+
+body {
+    background: #E5E5E5; 
+
+
+}
+
+a {
+     text-decoration: none;
+     font-size: 20px;
+     
+}    
+
+.btn {
+    
+    background-color: #199319;
+    color: white;
+    padding: 15px 25px;
+    text-decoration: none;
+      
+}
+
+.btn:hover {
+    background-color: #223094;
+  }

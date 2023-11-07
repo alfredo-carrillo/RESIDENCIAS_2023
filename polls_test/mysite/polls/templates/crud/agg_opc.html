@@ -1,0 +1,16 @@
+{% load static %}
+
+{% block content %}
+<h1> ESTE ES UN FORMULARIO DE OPCIONES </h1>
+<div>
+    <form id="FORM_CH" method="POST" action="{% url 'polls:FORM_OPC' %}">
+
+        {% csrf_token %%}
+        {{ form.non_form_errors }}
+        {{ form.as_p }}
+
+        <button type="submit" class="px-5 btn btn-info">Submit</button>
+    </form>
+</div>
+
+{% endblock %}

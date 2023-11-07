@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4" >
+    {% if 'OK' in request.GET %}
+	<p><b> Los datos han sido enviados correctamente. </b> </p>
+    {% endif %}
+    <form method="POST" action="{% url 'polls:deletePoll' question.id %}">
+        {% csrf_token %}
+        <div class="card">
+            <div class="card-header">
+                <h3>Delete View</h3>
+            </div>
+            <div class="card-body" style="display:inline-grid; grid-template-columns: auto auto; padding:30px;">
+              
+                <p>Are you sure you want to delete "{{ object }}"?</p>
+                {{ form}}
+
+              
+                
+
+            </div>
+        </div>
+        <div class="mt-3 mb-5">
+            <button type="submit" class="px-5 btn btn-danger">Delete</button>
+        </div>
+    </form>
+   
+
+  
+</div>
+
+{% endblock %}
+
+
