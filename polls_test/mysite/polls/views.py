@@ -15,6 +15,8 @@ from django.http import HttpResponseRedirect
 from .models import Question, Choice
 from .forms import LoginForm, CreatePollform, QuestionForm, ChoiceForm
 
+from django.db import connection
+
 
 class Home(TemplateView):
     template_name = 'polls/home.html'
@@ -196,6 +198,7 @@ class PollsUpdate(TemplateView):
              
         question_form = QuestionForm(instance=pregunta)
         choice_formset = ChoiceFormSet(queryset=choices)
+        
 
         context['question_form'] = question_form
         context['choice_formset'] = choice_formset
@@ -203,27 +206,35 @@ class PollsUpdate(TemplateView):
         return context
     
     def post(self, request, *args, **kwargs):
-        # retrieve the primary key from url
-         pk = self.kwargs['pk']
-  
-        # retrieve the Person model instance based on pk
-         pregunta = get_object_or_404(Question, pk=pk)
-         question_form = QuestionForm(instance=pregunta, data=request.POST)
+        pk = self.kwargs['pk']
+        pregunta = get_object_or_404(Question, pk=pk)
 
-         
-         #choice = get_object_or_404(Choice, pk=pk)
-         choice_formset = ChoiceForm(instance=pregunta, data=request.POST)
 
-  
-         if 'save_forms' in request.POST:
-            if question_form.is_bound and question_form.is_valid() :
-                question_form.save()
-             
-            
-     
 
-            return HttpResponseRedirect(reverse('polls:main'))        
-    
+        question_form = QuestionForm(instance=pregunta, data=request.POST)
+        ChoiceFormSet = modelformset_factory(Choice, form=ChoiceForm, extra=0)
+       # import pdb; pdb.set_trace()
+
+        if request.method == 'POST':
+            # Procesar el formulario principal
+            if question_form.is_valid():
+                pregunta = question_form.save()
+                choice_formset = ChoiceFormSet(request.POST, queryset=Choice.objects.filter(question=pregunta))
+                if choice_formset.is_valid():
+                    print("ha entrado en el segundo if")
+                else:
+                    print("El formset no es válido")
+                    print(choice_formset.data)
+                    print(choice_formset.errors)
+
+
+
+                return HttpResponseRedirect(reverse('polls:main'))  # Asegúrate de definir 'success_page' en tus URLs
+
+        
+
+
+
            
 class PollDeleteView(DeleteView):
     model = Question

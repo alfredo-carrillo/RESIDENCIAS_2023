@@ -22,8 +22,7 @@
                 {{ question_form }}
                
                
-                 <div  class="mt-3 mb-5">
-
+                <div class="mt-3 mb-5">
                     {% for choice_form in choice_formset %}
                     <div id="form-getChoice" class="choice-form">
                         {{ choice_form.choice_text }}
@@ -31,9 +30,8 @@
                     </div>
                     {% endfor %}
                     <button type="button" id="add_fields">Add more</button>
-        
-                    
                 </div>
+                
                 
             </div>
             <div class="mt-3 mb-5">
