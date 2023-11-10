@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 
-{% load static %}
+
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+
 
     {% if user.is_authenticated %}
-    <h3>  Hi {{ user.username }}  ! </h3>
-    
-    <p><a class="btn btn-danger btn-lg" href="{% url 'polls:log-out' %}" role="button">Log Out &raquo;</a></p>
+   
     {% else %}
    {#No mostrará nada#}
     {% endif %}
@@ -58,6 +56,7 @@
 
 {% endblock content %}
 
-<!--{#<a href="{% url 'polls:update' question.id ch %}">
-    <button type="button" class="btn btn-warning">Update</button>
-  </a>#}-->
+
+  <h3 style="color:white">  Hi {{ user.username }}  ! </h3>
+    
+  <p><a class="btn btn-danger btn-lg" href="{% url 'polls:log-out' %}" role="button">Log Out &raquo;</a></p>

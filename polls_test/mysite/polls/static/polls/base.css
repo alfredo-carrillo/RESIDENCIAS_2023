@@ -1,0 +1,8 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Esto es opcional para centrar verticalmente en toda la altura de la ventana */
+    background-color: ;
+    padding-top:10%;
+  }

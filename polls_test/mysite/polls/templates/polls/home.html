@@ -25,79 +25,60 @@
 
 {% block content %}
 
-<main role="main">
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron" style = "background-color:#E1DFE3">
-        <div class="container">
-            <h1 class="display-3">Hellow, EveryBody</h1>
-            <p>This is an example of django polls with user auth and an implemented crud to hold the questions and options inside the poll app</p>
-            <p><a class="btn btn-primary btn-lg" href="{% url 'polls:main' %}" role="button">go to polls &raquo;</a></p>
+
+  
+
+        <div class="row" style="color:white;">
+
+          <div class="col-sm-4" style="background-color: #131117;">
+            <h2>About Me</h2>
+            <h5>Pues yo:</h5>
+            <img src="static/polls/images/yo.jpg" alt="Una foto de un guapo galan" style="object-fit: cover;">
+            <p>Soy Matthewss, y soy un jóven practicante en el área de desarrollo y soporte técnico en finkok y mi meta es tener un gothic gurl tatuada </p>
+            <h3 class="mt-4">Some Links</h3>
+            <p>Lorem ipsum dolor sit ame.</p>
+            <ul class="nav nav-pills flex-column">
+              
+              <li class="nav-item">
+                <p><a class="btn btn-lg" style="background-color:#4C03F1; color: white;" href="{% url 'polls:main' %}" role="button">go to polls &raquo;</a></p>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+              </li>
+            </ul>
+
+            <hr class="d-sm-none">
+          </div>
+
+          <div class="col-sm-8" style="background-color:050308;">
+            <h2 style=" text-decoration: underline overline;">Ejemplo de Proyecto de Encuestas</h2>
+            <h5> -Desarrollado en Django</h5>
+            <br>
+            <p> Los usuarios pueden crear encuestas personalizadas con preguntas de opción múltiple o abiertas. Pueden definir la duración de la encuesta y establecer opciones de privacidad.</p>
+            <p>SLos creadores de encuestas pueden ver y administrar todas sus encuestas, incluyendo la posibilidad de editar, eliminar o desactivar encuestas anteriores.</p>
+            <p>Los usuarios registrados pueden participar en las encuestas respondiendo a las preguntas proporcionadas. Se pueden proporcionar comentarios o aclaraciones para preguntas abiertas.</p><br>
+      
+            <h2 class="mt-5">Te Preguntarás donde Hago residencias</h2>
+            <h5>Nada más y menos que en FIKOK S.A de C.V</h5>
+            <img src="static/polls/images/FKK.png" alt="Una foto de un guapo galan" style="object-fit: cover;"><br>
+            <p>¿Quiénes Somos?</p>
+            <p>Único proveedor en ofrecer un facturación electrónica OnDemand, es decir, sobre demanda, usted paga solo lo que consume al término del periodo de 30 días. Con FINKOK usted no paga por adelantado, solo pónganse en contacto con nosotros para asignarle a un experto integrador de sistemas, él le ayudara a integrar su sistema con el de FINKOK para comenzar a facturar, esto no tiene ningún costo para usted</p>
+          </div>
         </div>
-    </div>
+      
 
-    <!-- Example row of columns 
-    <div class="container">
-        
-        <div class="row">
-            <div class="col-md-4">
-                <link rel="stylesheet" href="{% static 'polls/home.css' %}">
+ 
 
-                <div class="tarjeta" >
-                    <div class="titulo">Bien venido,  ¿quieres ingresar a las encuestas?</div>
-                    <div class="cuerpo">
-                       
-                    </div>
-                    
-                        <a  class="pie" href="{% url 'polls:main' %}">Vamos a ello</a>
-                   
-                    </div>
-                </div>
-            </div>
-            
-        </div>
 
-        <hr>
+  
 
-    </div>  /container -->
-
-</main>
-
-<footer class="container">
-    <p>&copy; MrData Company S.A C.V 2023-2024</p>
-</footer>
 {% endblock %}
 
 
-<main role="main">
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <div class="container">
-            <h1 class="display-3">Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called a
-                jumbotron and three supporting pieces of content. Use it as a starting point to create something more
-                unique.</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-        </div>
-    </div>
 
-    <div class="container">
-        <!-- Example row of columns -->
-        <div class="row">
-            <div class="col-md-4">
-                <link rel="stylesheet" href="{% static 'polls/home.css' %}">
 
-                <div class="tarjeta" >
-                    <div class="titulo">Bien venido,  ¿quieres ingresar a las encuestas?</div>
-                    <div class="cuerpo">
-                       
-                    </div>
-                    
-                        <a  class="pie" href="{% url 'polls:main' %}">Vamos a ello</a>
-                   
-                    </div>
-                </div>
-            </div>
-            
-        </div>

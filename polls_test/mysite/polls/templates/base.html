@@ -1,95 +1,97 @@
+{% load static %}
+
 <html lang="en">
+  
+    <link rel="stylesheet" href="{% static 'polls/base.css' %}">
 
-<head>
-    <title>{% block title %}{% endblock %}</title>
+    <head>
 
-    <!-- CSS only -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+                     <!-- CSS only -->
 
-    <!-- JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+                integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-     <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
-  <!-- Fengyuan Chen's Datepicker -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
 
-  <!-- HTMX-->
-  <script src="https://unpkg.com/htmx.org@1.5.0"
-  integrity="sha384-oGA+prIp5Vchu6we2YkI51UtVzN9Jpx2Z7PnR1I78PnZlN8LkrCT4lqqqmDkyrvI"
-  crossorigin="anonymous"></script>
-<!--Datepicker-->
-<!-- Incluye jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+                <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
 
-<!-- Incluye jQuery UI (asegúrate de incluir los archivos necesarios) -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            
+            <title>{% block title %}{% endblock %}</title>
 
-<!-- Incluye jQuery UI -->
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <style>
+              .d-flex a {
+                margin-right: 10px; /* Agregar espacio de 10px a la derecha de cada botón (ajusta el valor según tus necesidades) */
+              }
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"> </script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
-
+              /*This is modifying the btn-primary colors but you could create your own .btn-something class as well*/
+              .btn-outline-primary{
+                  color: #fff;
+                  background-color: #6C2CFC;
+                  border-color: #ffff; /*set the color you want here*/
+              }
+              .btn-outline-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+                  color: #fff;
+                  background-color:#1A1A1A;
+                  border-color: #ffff; /*set the color you want here*/
+              }
+            </style>
+              
     </head>
+   
+    <body style="background-color:#202123;">
 
-<body style = " background-color: green;  font-family: Open Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, Helvetica, Arial, sans-serif;" >
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+     
+      <nav class="navbar navbar-expand-lg fixed-top" style="background-color: rgba(108, 44, 252, 0.95);"> <!-- Establecer el nivel de transparencia con el valor alfa del cuarto parámetro (0.85) -->
+        <div class="container-fluid">
 
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'polls:main' %}">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'polls:c-poll' %}">Add Polls</a>
-           
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Dropdown</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+            <div class="d-flex ">
+
+               <a class="btn btn-outline-primary" style="text-decoration: none; color:white; font-weight: bold;" href="{% url 'polls:home' %}">Home</a> 
+                <a class="btn btn-outline-primary" style="text-decoration: none; color:white; font-weight: bold;" href="{% url 'polls:main' %}">Main</a> 
+                <a class="btn btn-outline-primary" style="text-decoration: none; color:white; font-weight: bold;" href="{% url 'polls:register' %}">Log in</a> 
+                <a class="btn btn-outline-primary" style="text-decoration: none; color:white; font-weight: bold;" href="{% url 'polls:c-poll' %}">Crear Poll</a> 
+                <a class="btn btn-outline-primary" style="text-decoration: none; color:white; font-weight: bold;" href="{% url 'polls:log-out' %}">Log-out</a> 
+            </div>
+        
+          
+         
+          
+             
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+              <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+        </div>
+       
+      </nav>
+
+        
+
+         
+
+    <main class="mt-5" role="main" >
+      <div class="container" style="background-color: #353535;">
+      {% block content %}
+
+      {% endblock   %}
+      </div>
+    </main>
+
+
+          
+         
+    <div class="mt-5 p-4 text-white; flexbox-margin-auto" style="background-color:#2b3035;">
+        <p>&copy; MrData Company S.A C.V 2023-2024</p>
     </div>
-</nav>
-<main  >
-  <div class = "jumbotron" style = "height:100%; width: 100%; overflow: scroll; justify-content: center;   align-items: center; ">
-    <div class = "container"   style = "background-color:#E1DFE3" >
-     {% block content %}
-     {% endblock %}
-    <div>
-  </div>
-</main>
 
-</body>
+    </body>
 
+
+
+   
 </html>

@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'bootstrap5',
     'betterforms',
-    'sweetify', 
+    'sweetify',
+    'livereload', 
     
 ]
 
